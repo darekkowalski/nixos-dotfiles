@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+lock() {
+    xset dpms force off
+    i3lock -c 000000 -f -n
+    return $?
+}
+
+if ! lock; then
+    # If at first we don't succeed...
+    sleep 0.4
+    lock
+fi
+

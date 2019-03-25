@@ -1,0 +1,20 @@
+! Swap windows and alt keys
+remove mod1 = Alt_L
+add control = Alt_L
+clear mod4
+add mod1 = Super_L
+
+! set caps lock key to mod3
+clear lock
+keycode 66 = Hyper_R
+add mod3 = Hyper_R
+
+! set print screen to mod3 as well
+keycode 107 = Hyper_R
+
+! set left alt key to Control_L (thinking its super/command)
+keycode 64 = Control_L
+
+! set super key to Alt_L (swapping windows and alt key)
+keycode 133 = Alt_L
+
