@@ -1,24 +1,28 @@
-
-
-# TODO
-# On start
-# exec --no-startup-id xset dpms 300 # Turn off screen after 5min (also locks)
-# exec --no-startup-id nm-applet # Network
-# # Unclutter makes the mouse invisible after a brief period
-# exec --no-startup-id unclutter
-
-
-
-1. i3
-  * 
-  *
-
-2. cursor
+2. cursor small -- fonts dpi?
 
 3. brave beta
 
-4. rsut
+4. rust latest
 
-5. newer go
+5. newer go 1.12.1
 
 6. cursor speed
+
+8. gtk/thunar styling..
+
+9. dpi... ?
+
+10. test firewall, what kind of rules, stateful.. etc.?
+
+13. i3, devtools floating windows..
+
+14. home-manager from configuration.nix
+
+15. i3 colors
+
+16. configs..
+  * ~/.tmux.conf
+
+18. cursor/pointer style ......
+
+19. kitty.conf - generate from nix..

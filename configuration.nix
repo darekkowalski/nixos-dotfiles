@@ -77,10 +77,11 @@ let secrets = import /etc/nixos/secrets.nix; in
   ];
 
   # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 4001 3001 8000 ];
+  networking.firewall.allowedTCPPorts = [ 3000 3001 8000 ];
   networking.firewall.allowedUDPPorts = [ ];
+
   services = {
-    #fwupd.enable = true;
+    fwupd.enable = true;
     avahi = {
       enable = true;
       nssmdns = true;
@@ -94,6 +95,7 @@ let secrets = import /etc/nixos/secrets.nix; in
     xserver = {
       enable = true;
       layout = "us";
+
       # Enable touchpad support.
       libinput.enable = true;
 
@@ -101,10 +103,10 @@ let secrets = import /etc/nixos/secrets.nix; in
         enable = true;
         autoLogin.enable = true;
         autoLogin.user = "peter";
-        extraConfig = ''
-          [XDMCPServer]
-          enabled=true
-        '';
+        # extraConfig = ''
+        #   [XDMCPServer]
+        #   enabled=true
+        # '';
       };
     };
     openssh = {
@@ -122,6 +124,7 @@ let secrets = import /etc/nixos/secrets.nix; in
     ohMyZsh = {
       enable = true;
       theme = "robbyrussell";
+      plugins = [ "git" "colorize" "zsh-autosuggestions" "z" ];
     };
   };
 
@@ -153,10 +156,15 @@ let secrets = import /etc/nixos/secrets.nix; in
     description = "Peter Kieltyka";
     hashedPassword = secrets.users.peter.hashedPassword;
     shell = pkgs.zsh;
-    extraGroups = [
-      "wheel" "docker" "lxd" "video"
-    ];
+    extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "lxd" "adbusers"];
   };
+
+  services.tlp.extraConfig = ''
+    START_CHARGE_THRESH_BAT0=70
+    STOP_CHARGE_THRESH_BAT0=100
+    CPU_SCALING_GOVERNOR_ON_BAT=powersave
+    ENERGY_PERF_POLICY_ON_BAT=powersave
+  '';
 
   # This value determines the NixOS release with which your system is to be
   # compatible, in order to avoid breaking some software such as database

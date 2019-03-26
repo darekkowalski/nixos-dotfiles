@@ -18,7 +18,7 @@ in
       max_icon_size = 48;
 
       dmenu = "rofi -dmenu -p Dunst";
-      browser = "/run/current-system/sw/bin/google-chrome-stable";
+      browser = "google-chrome-stable";
     };
     shortcuts = {
       close = "ctrl+space";

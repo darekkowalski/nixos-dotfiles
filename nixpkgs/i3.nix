@@ -59,10 +59,10 @@ in
       "${modc}+q" = "kill";
 
       "${mod}+${modc}+s" = "exec --no-startup-id brave --new-window";
+      "${mod}+${modc}+g" = "exec --no-startup-id google-chrome-stable --new-window";
 
-      "${mod}+Shift+Up" = "exec --no-startup-id xrandr --output DP1 --brightness 1";
-      "${mod}+Shift+Down" = "exec --no-startup-id xrandr --output DP1 --brightness 0.85";
-
+      "${mod}+Shift+Up" = "exec --no-startup-id xrandr --output DP-1 --brightness 1";
+      "${mod}+Shift+Down" = "exec --no-startup-id xrandr --output DP-1 --brightness 0.85";
 
       "${mod}+slash" = "exec playerctl play-pause";
       "${mod}+period" = "exec playerctl next";
@@ -90,7 +90,6 @@ in
 
       # enter fullscreen mode for the focused container
       "${mod}+f" = "fullscreen toggle";
-
 
       # change container layout (toggle split, stacking, tabbed)
       "${mod}+a" = "layout toggle split";
@@ -157,10 +156,6 @@ in
       "${mod}+n" = "move workspace to output up";
       "${mod}+m" = "move workspace to output down";
 
-      # switch workspace with mod + mouse wheel/scroll
-      # bindsym --whole-window --border $mod+button4 exec ~/.bin/i3-powertools -workspace=prev
-      # bindsym --whole-window --border $mod+button5 exec ~/.bin/i3-powertools -workspace=next
-
       # Workspaces and multiple monitors
       "${mod}+${moda}+Left" = "move workspace to output left";
       "${mod}+${moda}+Right" = "move workspace to output right";
@@ -174,41 +169,19 @@ in
       "${mod}+bracketright" = "workspace next";
       "${mod}+bracketleft" = "workspace prev";
 
-
       "${mod}+l" = "exec ~/.bin/screenlock";
       "${mod}+semicolon" = "exec ~/.bin/screenoff";
 
-
-
-      # # screenshot, clip
-      # bindsym --release $mod+Shift+p exec maim -s | xclip -selection clipboard -t "image/png"
-
-      # # screenshot, full screen
-      # bindsym --release $mod+p exec --no-startup-id maim ~/Pictures/screenshot-$(date +%s).png
-
+      "${mod}+r" = "mode resize";
 
       # restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
-      "$mod+Shift+r" = "restart";
+      "${mod}+Shift+r" = "restart";
 
       # exit i3 (logs you out of your X session)
       "${mod}+Shift+e" = "exec \"i3-nagbar -t warning -m 'You pressed the exit shortcut. Do you really want to exit i3? This will end your X session.' -b 'Yes, exit i3' 'i3-msg exit'\"";
 
       # pick a new wallpaper
       "${mod}+Shift+w" = "exec ~/.bin/set-wallpaper.sh";
-
-
-      #----------------------
-      #----------------------
-      #----------------------
-      #----------------------
-
-      # "${mod}+d" = "exec rofi -modi drun -show drun -display-drun \"\" -show-icons ";
-      # "${mod}+Shift+d" = "exec rofi -show window";
-      #"${mod}+Shift+f" = "exec rofi -show emoji -modi emoji";
-      
-      # "${mod}+r" = "mode resize";
-
-
     };
     colors = with theme; {
       background = hex.background;
@@ -248,33 +221,19 @@ in
         childBorder = hex.background;
       };
     };
-    startup = [
-      # key rate
-      { command = "xset r rate 175 30"; always = true; notification = false; }
-
-      # mod/capslock override
-      { command = "xmodmap ~/.xmodmap"; always = true; notification = false; }
-
-      # detect screens
-      { command = "autorandr -c"; always = true; notification = false; }
-
-      # turn off screen after 5min
-      { command = "xset dpms 300"; always = true; notification = false; }
-
-      # wallpaper
-      { command = "wal -nR"; notification = false; }
-      { command = "feh --bg-fill ${theme.wallpaper}"; always = true; notification = false; }
-
-      # go to first workspace
-      { command = "i3-msg workspace ${ws._1}"; notification = false; }
-
-      # network
-      { command = "nm-applet"; notification = false; }
-
-      # unclutter makes the mouse invisible after a brief period
-      { command = "unclutter"; notification = false; }
-
-    ];
+    modes = {
+      # resize window (you can also use the mouse for that)
+      resize = {
+        # same bindings, but for the arrow keys
+        "Left" = "resize shrink width 10 px or 10 ppt";
+        "Down" = "resize grow height 10 px or 10 ppt";
+        "Up" = "resize shrink height 10 px or 10 ppt";
+        "Right" = "resize grow width 10 px or 10 ppt";
+        "Escape" = "mode default";
+        "Return" = "mode default";
+        "${mod}+r" = "mode default";
+      };
+    };
     bars = [{
       fonts = [ "DejaVu Sans Mono 10" ];
       position = "bottom";
@@ -293,16 +252,54 @@ in
       newWindow = "urgent";
     };
     window = {
-      border = 8;
+      border = 2;
       titlebar = false;
     };
     floating = {
       modifier = "${mod}";
       criteria = [
-        {"window_type"="dialog"; }
+        { "window_type"="dialog"; }
         { "window_type"="menu"; }
         { "window_role"="pop-up"; } # how to disable pop for chrome devtools?  "title"="^(?!DevTools - .*$))";
       ];
     };
+    startup = [
+      # key rate
+      { command = "xset r rate 175 30"; notification = false; }
+
+      # mod/capslock override
+      { command = "xmodmap ~/.xmodmap"; notification = false; }
+
+      # detect screens
+      { command = "autorandr -c"; always = true; notification = false; }
+
+      # turn off screen after 5min
+      { command = "xset dpms 300"; notification = false; }
+
+      # wallpaper
+      # { command = "wal -nR"; notification = false; }
+      # { command = "feh --bg-fill ${theme.wallpaper}"; always = true; notification = false; }
+
+      # go to first workspace
+      { command = "i3-msg workspace '${ws._1}'"; notification = false; }
+
+      # network
+      { command = "nm-applet"; notification = false; }
+
+      # unclutter makes the mouse invisible after a brief period
+      { command = "unclutter"; notification = false; }
+
+    ];
   };
+  extraConfig = ''
+    # screenshot, clip
+    bindsym --release ${mod}+Shift+p exec maim -s | xclip -selection clipboard -t "image/png"
+
+    # screenshot, full screen
+    bindsym --release ${mod}+p exec --no-startup-id maim ~/Pictures/screenshot-$(date +%s).png
+
+    # switch workspace with mod + mouse wheel/scroll
+    bindsym --whole-window --border ${mod}+button4 exec ~/.bin/i3-powertools -workspace=prev
+    bindsym --whole-window --border ${mod}+button5 exec ~/.bin/i3-powertools -workspace=next
+  '';
 }

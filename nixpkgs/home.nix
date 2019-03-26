@@ -2,7 +2,6 @@
 
 let
   theme = import ./theme.nix;
-  i3blocks-git = import ./i3blocks;
   oomox = import ./oomox;
   git-quick-stats = import ./git-quick-stats;
   xwobf = import ./xwobf;
@@ -29,6 +28,7 @@ in
     ffmpeg
     pciutils
     xorg.xmodmap
+    xorg.xdpyinfo
 
     # languages & build tools
     go
@@ -66,6 +66,7 @@ in
     playerctl
     unclutter
     networkmanagerapplet
+    redshift
 
     # apps
     appimage-run
@@ -90,6 +91,7 @@ in
     git-lfs
     brave
     firefox
+    irssi
     
     # chat
     weechat
@@ -99,65 +101,43 @@ in
   programs.home-manager = {
     enable = true;
     # path = "https://github.com/rycee/home-manager/archive/release-18.09.tar.gz";
+
   };
 
   xsession = {
     enable = true;
     windowManager.i3 = import ./i3.nix pkgs;
-    # profileExtra = ''
-    #   export TERMINAL="kitty"
-    #   xset r rate 175 30
-    #   export QT_AUTO_SCREEN_SCALE_FACTOR=1
-    #   #xmodmap ~/.xmodmap
-
-    #   #~/.bin/set-wallpaper.sh
-    # '';
   };
   programs.autorandr = import ./autorandr.nix pkgs;
 
   programs.rofi = import ./rofi.nix pkgs;
   services.dunst = import ./dunst.nix pkgs;
   services.compton = import ./compton.nix pkgs;
-  
-  # programs.fish = {
-  #   enable = true;
-  #   shellAliases = {
-  #     pbpaste = "xclip -selection clipboard -o";
-  #     pbcopy = "xclip -selection clipboard -i";
-  #     netcopy = "nc -q 0 tcp.st 7777 | grep URL | cut -d \" \" -f 2 | pbcopy";
-  #     icat ="kitty +kitten icat";
 
-  #     google-chrome  ="google-chrome-stable";
-  #     chrome = "google-chrome";
-
-  #     reload-fish = "exec fish";
-  #     fix-bluetooth-audio = "pacmd set-card-profile (pacmd list-sinks | sed -n \"s/card: \\([0-9]*\\) <bluez.*/\\1/p\" | xargs) a2dp_sink";
-  #   };
-  #   shellInit = ''
-  #     fundle plugin 'tuvistavie/fish-ssh-agent'
-  #     fundle plugin 'MaxMilton/pure'
-
-  #     set -gx VISUAL \"nano\"
-  #     set -gx QT_AUTO_SCREEN_SCALE_FACTOR 1
-
-  #     set -gx PATH ~/.yarn/bin ~/bin ~/go/bin $PATH
-
-  #     fundle init
-
-  #     source (lua ~/bin/z.lua --init fish | psub)
-  #     alias ls "exa"
-  #   '';
-  # };
+  services.redshift = {
+    enable = true;
+    latitude = "43.65";
+    longitude = "-79.38";
+  };
 
   programs.git = {
     enable = true;
     userEmail = "peter.kieltyka@gmail.com";
     userName = "Peter Kieltyka";
-    extraConfig.core.editor = "code --wait";
-    extraConfig.pull.rebase = true;
-    extraConfig.rebase.autoStash = true;
-    extraConfig.diff.tool = "default-difftool";
-    extraConfig.push.default = "simple";
+    aliases = {
+      co = "checkout";
+      s = "status";
+      ci = "commit";
+      b = "branch";
+      undo = "reset --soft HEAD^";
+      last = "log 1 HEAD";
+      diff2 = "diff --color-words --ignore-all-space --patience";
+    };
+    extraConfig = {
+      core.editor = "code --wait";
+      push.default = "current";
+      diff.tool = "default-difftool";
+    };
   };
 
   systemd.user.services.lock = {
