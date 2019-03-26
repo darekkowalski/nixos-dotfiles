@@ -27,6 +27,8 @@ in
     usbutils
     ffmpeg
     pciutils
+    # s-tui
+    # stress
     xorg.xmodmap
     xorg.xdpyinfo
 
@@ -92,6 +94,8 @@ in
     brave
     firefox
     irssi
+    xournal
+    libreoffice-fresh
     
     # chat
     weechat
@@ -118,6 +122,10 @@ in
     enable = true;
     latitude = "43.65";
     longitude = "-79.38";
+    # temperature = {
+    #   day = 4000;
+    #   night = 3500;
+    # };
   };
 
   programs.git = {

@@ -7,11 +7,10 @@ let secrets = import /etc/nixos/secrets.nix; in
 { config, pkgs, ... }:
 
 {
-  imports =
-    [
-      <nixos-hardware/lenovo/thinkpad/x1/6th-gen>
-      /etc/nixos/hardware-configuration.nix
-    ];
+  imports = [
+    <nixos-hardware/lenovo/thinkpad/x1/6th-gen>
+    /etc/nixos/hardware-configuration.nix
+  ];
 
   # Use the systemd-boot EFI boot loader.
   boot = {
@@ -97,7 +96,12 @@ let secrets = import /etc/nixos/secrets.nix; in
       layout = "us";
 
       # Enable touchpad support.
-      libinput.enable = true;
+      libinput = {
+        enable = true;
+        accelProfile = "adaptive";
+        accelSpeed = "0.6";
+        clickMethod = "clickfinger";
+      };
 
       displayManager.lightdm = {
         enable = true;
@@ -115,6 +119,10 @@ let secrets = import /etc/nixos/secrets.nix; in
     };
     # usbmuxd.enable = true;
   };
+
+  # Font dpis
+  services.xserver.dpi = 144;
+  fonts.fontconfig.dpi = 144;
 
   programs.zsh = {
     enable = true;
