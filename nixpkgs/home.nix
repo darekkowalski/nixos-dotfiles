@@ -96,6 +96,7 @@ in
     irssi
     xournal
     libreoffice-fresh
+    slack
     
     # chat
     weechat
@@ -111,22 +112,19 @@ in
   xsession = {
     enable = true;
     windowManager.i3 = import ./i3.nix pkgs;
+
+    pointerCursor = {
+      name = "Vanilla-DMZ";
+      package = pkgs.vanilla-dmz;
+      size = 32;
+    };
   };
   programs.autorandr = import ./autorandr.nix pkgs;
 
   programs.rofi = import ./rofi.nix pkgs;
   services.dunst = import ./dunst.nix pkgs;
+  services.redshift = import ./redshift.nix pkgs;
   services.compton = import ./compton.nix pkgs;
-
-  services.redshift = {
-    enable = true;
-    latitude = "43.65";
-    longitude = "-79.38";
-    # temperature = {
-    #   day = 4000;
-    #   night = 3500;
-    # };
-  };
 
   programs.git = {
     enable = true;

@@ -64,6 +64,7 @@ let secrets = import /etc/nixos/secrets.nix; in
   };
 
   fonts.fonts = with pkgs; [
+    font-awesome-ttf
     noto-fonts
     noto-fonts-cjk
     noto-fonts-emoji
@@ -121,8 +122,8 @@ let secrets = import /etc/nixos/secrets.nix; in
   };
 
   # Font dpis
-  services.xserver.dpi = 144;
-  fonts.fontconfig.dpi = 144;
+  services.xserver.dpi = 140;
+  fonts.fontconfig.dpi = 140;
 
   programs.zsh = {
     enable = true;

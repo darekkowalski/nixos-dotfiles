@@ -235,7 +235,7 @@ in
       };
     };
     bars = [{
-      fonts = [ "DejaVu Sans Mono 10" ];
+      fonts = [ "DejaVu Sans Mono, Font Awesome 10" ];
       position = "bottom";
       statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.dotfiles/config/i3status/status.toml";
       colors = with theme; {
