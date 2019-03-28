@@ -97,6 +97,10 @@ in
     xournal
     libreoffice-fresh
     slack
+    powertop
+    powerstat
+    transmission-gtk
+    xorg.xkill
     
     # chat
     weechat

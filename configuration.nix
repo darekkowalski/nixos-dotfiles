@@ -82,16 +82,6 @@ let secrets = import /etc/nixos/secrets.nix; in
 
   services = {
     fwupd.enable = true;
-    avahi = {
-      enable = true;
-      nssmdns = true;
-    };
-    printing = {
-      enable = true;
-      drivers = with pkgs; [
-        gutenprint gutenprintBin brlaser
-      ];
-    };
     xserver = {
       enable = true;
       layout = "us";
@@ -108,15 +98,21 @@ let secrets = import /etc/nixos/secrets.nix; in
         enable = true;
         autoLogin.enable = true;
         autoLogin.user = "peter";
-        # extraConfig = ''
-        #   [XDMCPServer]
-        #   enabled=true
-        # '';
       };
     };
     openssh = {
       enable = false;
       forwardX11 = true;
+    };
+    avahi = {
+      enable = true;
+      nssmdns = true;
+    };
+    printing = {
+      enable = true;
+      drivers = with pkgs; [
+        gutenprint gutenprintBin brlaser
+      ];
     };
     # usbmuxd.enable = true;
   };
