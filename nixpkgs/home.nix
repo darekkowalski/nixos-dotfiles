@@ -12,15 +12,13 @@ in
   home.packages = with pkgs; [
     # system utils
     htop
+    gotop
     xclip
     psmisc
     acpi
     sysstat
     lm_sensors
     file
-    smartmontools
-    graphviz
-    toilet
     xorg.xev
     openssl
     rename
@@ -31,12 +29,13 @@ in
     # stress
     xorg.xmodmap
     xorg.xdpyinfo
+    whois
 
     # languages & build tools
+    gcc8
     go
     gnumake
     lua
-    tokei
     python
     python3Full
     cmake
@@ -44,12 +43,13 @@ in
     nodejs-11_x
     ms-sys
     git-quick-stats
-    awscli
     ansible
-    swiProlog
     glslang
     rustup
-    libimobiledevice
+
+    libudev
+    nodePackages.node-gyp
+    libusb
 
     # desktop env
     pywal
@@ -67,7 +67,6 @@ in
     gitAndTools.git-extras
     playerctl
     unclutter
-    networkmanagerapplet
     redshift
 
     # apps
@@ -82,25 +81,24 @@ in
     neofetch
     woeusb
     simplescreenrecorder
-    kicad
     gimp
-    atom
-    arduino
-    xoscope
     vlc
     xfce.thunar
     spotify
     git-lfs
     brave
-    firefox
     irssi
     xournal
     libreoffice-fresh
     slack
-    powertop
     powerstat
     transmission-gtk
     xorg.xkill
+
+    # rice
+    lxappearance
+    deepin.deepin-gtk-theme
+    hicolor-icon-theme
     
     # chat
     weechat
@@ -110,15 +108,16 @@ in
   programs.home-manager = {
     enable = true;
     # path = "https://github.com/rycee/home-manager/archive/release-18.09.tar.gz";
-
   };
+  
+  programs.zsh = import ./zsh.nix pkgs;
 
   xsession = {
     enable = true;
     windowManager.i3 = import ./i3.nix pkgs;
 
     pointerCursor = {
-      name = "Vanilla-DMZ";
+      name = "Vanilla-DMZ-AA";
       package = pkgs.vanilla-dmz;
       size = 32;
     };
@@ -130,8 +129,11 @@ in
   services.redshift = import ./redshift.nix pkgs;
   services.compton = import ./compton.nix pkgs;
 
+  services.network-manager-applet.enable = true;
+
   programs.git = {
     enable = true;
+    lfs.enable = true;
     userEmail = "peter.kieltyka@gmail.com";
     userName = "Peter Kieltyka";
     aliases = {
@@ -148,6 +150,16 @@ in
       push.default = "current";
       diff.tool = "default-difftool";
     };
+  };
+
+  programs.firefox = {
+    enable = true;
+    enableIcedTea = true;
+  };
+
+  programs.fzf = {
+    enable = true; 
+    enableZshIntegration = true;
   };
 
   systemd.user.services.lock = {

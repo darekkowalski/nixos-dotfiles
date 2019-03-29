@@ -1,3 +1,7 @@
+#if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+#  exec ssh-agent startx
+#fi
+
 #ulimit -n 10000
 
 export PATH=$PATH:$HOME/.bin:$HOME/.local/bin

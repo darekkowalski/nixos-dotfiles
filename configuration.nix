@@ -7,6 +7,8 @@ let secrets = import /etc/nixos/secrets.nix; in
 { config, pkgs, ... }:
 
 {
+  system.copySystemConfiguration = true;
+
   imports = [
     <nixos-hardware/lenovo/thinkpad/x1/6th-gen>
     /etc/nixos/hardware-configuration.nix
@@ -56,12 +58,11 @@ let secrets = import /etc/nixos/secrets.nix; in
     fwupd
     neovim
     xorg.xinit
-    zsh
   ];
 
-  environment.shellAliases = {
-    vim = "nvim";
-  };
+  # environment.shellAliases = {
+  #   vim = "nvim";
+  # };
 
   fonts.fonts = with pkgs; [
     font-awesome-ttf
@@ -80,11 +81,13 @@ let secrets = import /etc/nixos/secrets.nix; in
   networking.firewall.allowedTCPPorts = [ 3000 3001 8000 ];
   networking.firewall.allowedUDPPorts = [ ];
 
+  # battery saver auto tune
+  powerManagement.powertop.enable = true;
+
   services = {
     fwupd.enable = true;
     xserver = {
       enable = true;
-      layout = "us";
 
       # Enable touchpad support.
       libinput = {
@@ -93,6 +96,8 @@ let secrets = import /etc/nixos/secrets.nix; in
         accelSpeed = "0.6";
         clickMethod = "clickfinger";
       };
+
+      layout = "us";
 
       displayManager.lightdm = {
         enable = true;
@@ -121,17 +126,8 @@ let secrets = import /etc/nixos/secrets.nix; in
   services.xserver.dpi = 140;
   fonts.fontconfig.dpi = 140;
 
-  programs.zsh = {
-    enable = true;
-    enableCompletion = true;
-    autosuggestions.enable = true;
-    syntaxHighlighting.enable = true;
-    ohMyZsh = {
-      enable = true;
-      theme = "robbyrussell";
-      plugins = [ "git" "colorize" "zsh-autosuggestions" "z" ];
-    };
-  };
+  services.dnsmasq.enable = true;
+  services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
 
   programs.light.enable = true;
 
@@ -166,7 +162,7 @@ let secrets = import /etc/nixos/secrets.nix; in
 
   services.tlp.extraConfig = ''
     START_CHARGE_THRESH_BAT0=70
-    STOP_CHARGE_THRESH_BAT0=100
+    STOP_CHARGE_THRESH_BAT0=95
     CPU_SCALING_GOVERNOR_ON_BAT=powersave
     ENERGY_PERF_POLICY_ON_BAT=powersave
   '';
