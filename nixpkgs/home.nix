@@ -97,7 +97,6 @@ in
 
     # rice
     lxappearance
-    deepin.deepin-gtk-theme
     hicolor-icon-theme
     
     # chat
@@ -160,6 +159,22 @@ in
   programs.fzf = {
     enable = true; 
     enableZshIntegration = true;
+  };
+
+  gtk = {
+    enable = true;
+    font = {
+      package = pkgs.dejavu_fonts;
+      name = "DejaVu Sans 9";
+    };
+    theme = {
+      package = pkgs.theme-vertex;
+      name = "Vertex-Dark";
+    };
+    iconTheme = {
+      package = pkgs.tango-icon-theme;
+      name = "Tango";
+    };
   };
 
   systemd.user.services.lock = {

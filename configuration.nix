@@ -48,15 +48,15 @@ let secrets = import /etc/nixos/secrets.nix; in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
-    bluez
+    neovim
     wget
     git
-    unzip
     mkpasswd
+    fwupd
+    bluez
+    unzip
     p7zip
     dmidecode
-    fwupd
-    neovim
     xorg.xinit
   ];
 
@@ -80,6 +80,7 @@ let secrets = import /etc/nixos/secrets.nix; in
   # Open ports in the firewall.
   networking.firewall.allowedTCPPorts = [ 3000 3001 8000 ];
   networking.firewall.allowedUDPPorts = [ ];
+  networking.firewall.enable = true;
 
   # battery saver auto tune
   powerManagement.powertop.enable = true;
@@ -129,8 +130,18 @@ let secrets = import /etc/nixos/secrets.nix; in
   services.dnsmasq.enable = true;
   services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
 
-  programs.light.enable = true;
+  # services.postgresql = {
+  #   enable = true;
+  #   package = pkgs.postgresql_11;
+  #   superUser = "postgres";
+  #   enableTCPIP = true;
+  #   authentication = pkgs.lib.mkOverride 10 ''
+  #     local all all trust
+  #     host all all ::1/128 trust
+  #   '';
+  # };
 
+  programs.light.enable = true;
   programs.adb.enable = true;
 
   # Enable sound.
@@ -145,9 +156,7 @@ let secrets = import /etc/nixos/secrets.nix; in
   virtualisation.lxd.enable = true;
 
   users.mutableUsers = false;
-
   users.defaultUserShell = pkgs.zsh;
-
   users.users.root.hashedPassword = secrets.users.root.hashedPassword;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
