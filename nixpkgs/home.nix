@@ -35,6 +35,7 @@ in
     gcc8
     go
     gnumake
+    binutils
     lua
     python
     python3Full
@@ -94,6 +95,7 @@ in
     powerstat
     transmission-gtk
     xorg.xkill
+    webtorrent_desktop
 
     # rice
     lxappearance

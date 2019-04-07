@@ -130,17 +130,6 @@ let secrets = import /etc/nixos/secrets.nix; in
   services.dnsmasq.enable = true;
   services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
 
-  # services.postgresql = {
-  #   enable = true;
-  #   package = pkgs.postgresql_11;
-  #   superUser = "postgres";
-  #   enableTCPIP = true;
-  #   authentication = pkgs.lib.mkOverride 10 ''
-  #     local all all trust
-  #     host all all ::1/128 trust
-  #   '';
-  # };
-
   programs.light.enable = true;
   programs.adb.enable = true;
 
