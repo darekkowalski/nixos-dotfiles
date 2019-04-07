@@ -9,6 +9,8 @@ in
 {
   nixpkgs.config.allowUnfree = true;
   
+  programs.home-manager.enable = true;
+
   home.packages = with pkgs; [
     # system utils
     htop
@@ -105,32 +107,10 @@ in
     weechat
     discord
   ];
-  
-  programs.home-manager = {
-    enable = true;
-    # path = "https://github.com/rycee/home-manager/archive/release-18.09.tar.gz";
-  };
-  
+    
   programs.zsh = import ./zsh.nix pkgs;
-
-  xsession = {
-    enable = true;
-    windowManager.i3 = import ./i3.nix pkgs;
-
-    pointerCursor = {
-      name = "Vanilla-DMZ-AA";
-      package = pkgs.vanilla-dmz;
-      size = 32;
-    };
-  };
-  programs.autorandr = import ./autorandr.nix pkgs;
-
   programs.rofi = import ./rofi.nix pkgs;
-  services.dunst = import ./dunst.nix pkgs;
-  services.redshift = import ./redshift.nix pkgs;
-  services.compton = import ./compton.nix pkgs;
-
-  services.network-manager-applet.enable = true;
+  programs.autorandr = import ./autorandr.nix pkgs;
 
   programs.git = {
     enable = true;
@@ -179,19 +159,74 @@ in
     };
   };
 
-  systemd.user.services.lock = {
-    Unit = {
-      Description = "Lock Screen When Sleeping";
-      Before = [ "sleep.target" ];
-    };
-    Service = {
-      Type = "forking";
-      ExecStart = "${pkgs.maim} /tmp/screen.png && ${xwobf}/bin/xwobf -s 11 /tmp/screen.png && ${pkgs.i3lock}/bin/i3lock -i /tmp/screen.png && rm /tmp/screen.png";
-      # ExecStartPost = "/run/current-system/sw/bin/sleep 1";
-    };
-    Install = {
-      WantedBy = [ "default.target" ];
+
+  # Services
+  services.dunst = import ./dunst.nix pkgs;
+  services.redshift = import ./redshift.nix pkgs;
+  services.compton = import ./compton.nix pkgs;
+  services.network-manager-applet.enable = true;
+
+
+  # X
+  xsession = {
+    enable = true;
+    windowManager.i3 = import ./i3.nix pkgs;
+
+    pointerCursor = {
+      name = "Vanilla-DMZ-AA";
+      package = pkgs.vanilla-dmz;
+      size = 32;
     };
   };
+
+  home.file.".xinitrc".text = ''
+    #!/bin/sh
+    [ -f ~/.xprofile ] && . ~/.xprofile
+    exec dbus-launch --exit-with-x11 i3
+  '';
+
+  home.file.".xmodmap".text = ''
+    ! Swap windows and alt keys
+    remove mod1 = Alt_L
+    add control = Alt_L
+    clear mod4
+    add mod1 = Super_L
+
+    ! set caps lock key to mod3
+    clear lock
+    keycode 66 = Hyper_R
+    add mod3 = Hyper_R
+
+    ! set print screen to mod3 as well
+    keycode 107 = Hyper_R
+
+    ! set left alt key to Control_L (thinking its super/command)
+    keycode 64 = Control_L
+
+    ! set super key to Alt_L (swapping windows and alt key)
+    keycode 133 = Alt_L
+  '';
+
+  xresources.properties = {
+    "Xft.dpi" = 140; # = 210 / 1.5
+    # "Xcursor.size" = 32;
+    # "Xcursor.theme" = "Vanilla-DMZ-AA";
+  };
+
+  # systemd.user.services.lock = {
+  #   Unit = {
+  #     Description = "Lock Screen When Sleeping";
+  #     Before = [ "sleep.target" ];
+  #   };
+  #   Service = {
+  #     Type = "forking";
+  #     ExecStart = "${pkgs.maim} /tmp/screen.png && ${xwobf}/bin/xwobf -s 11 /tmp/screen.png && ${pkgs.i3lock}/bin/i3lock -i /tmp/screen.png && rm /tmp/screen.png";
+  #     # ExecStartPost = "/run/current-system/sw/bin/sleep 1";
+  #   };
+  #   Install = {
+  #     WantedBy = [ "default.target" ];
+  #   };
+  # };
+
 
 }

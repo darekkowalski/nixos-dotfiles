@@ -32,9 +32,6 @@ let secrets = import /etc/nixos/secrets.nix; in
   hardware.bluetooth.enable = true;
   hardware.bluetooth.powerOnBoot = false;
 
-  networking.hostName = "pak"; # Define your hostname.
-  networking.networkmanager.enable = true;
-
   # Select internationalisation properties.
   i18n = {
     consoleFont = "DejaVu Sans Mono";
@@ -48,6 +45,7 @@ let secrets = import /etc/nixos/secrets.nix; in
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+    home-manager
     neovim
     wget
     git
@@ -77,8 +75,15 @@ let secrets = import /etc/nixos/secrets.nix; in
     })
   ];
 
-  # Open ports in the firewall.
-  networking.firewall.allowedTCPPorts = [ 3000 3001 8000 ];
+  # Networking
+  networking.hostName = "pak";
+  networking.networkmanager.enable = true;
+  networking.networkmanager.appendNameservers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
+
+  networking.firewall.allowedTCPPorts = [
+    3000 3001
+    8010        # VLC Chromecast
+  ];
   networking.firewall.allowedUDPPorts = [ ];
   networking.firewall.enable = true;
 
@@ -87,8 +92,17 @@ let secrets = import /etc/nixos/secrets.nix; in
 
   services = {
     fwupd.enable = true;
+
+    dnsmasq.enable = true;
+    dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
+
+    localtime.enable = true;
+
     xserver = {
       enable = true;
+      displayManager.startx.enable = true;
+      desktopManager.default = "none";
+      layout = "us";
 
       # Enable touchpad support.
       libinput = {
@@ -97,38 +111,35 @@ let secrets = import /etc/nixos/secrets.nix; in
         accelSpeed = "0.6";
         clickMethod = "clickfinger";
       };
-
-      layout = "us";
-
-      displayManager.lightdm = {
-        enable = true;
-        autoLogin.enable = true;
-        autoLogin.user = "peter";
-      };
     };
+
     openssh = {
       enable = false;
       forwardX11 = true;
     };
+
     avahi = {
       enable = true;
       nssmdns = true;
     };
+
     printing = {
       enable = true;
       drivers = with pkgs; [
         gutenprint gutenprintBin brlaser
       ];
     };
+
     # usbmuxd.enable = true;
   };
 
-  # Font dpis
-  services.xserver.dpi = 140;
-  fonts.fontconfig.dpi = 140;
+  # Resolution
+  fonts.fontconfig.dpi = 210;
+  services.xserver.dpi = 210;
 
-  services.dnsmasq.enable = true;
-  services.dnsmasq.servers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
+  services.xserver.monitorSection = ''
+    DisplaySize 310 174   # In millimeters
+  '';
 
   programs.light.enable = true;
   programs.adb.enable = true;

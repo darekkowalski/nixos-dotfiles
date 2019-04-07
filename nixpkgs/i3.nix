@@ -264,6 +264,9 @@ in
       ];
     };
     startup = [
+      # xresources
+      { command = "xrdb -merge ~/.Xresources"; notification = false; }
+
       # key rate
       { command = "xset r rate 175 30"; notification = false; }
 
@@ -276,15 +279,16 @@ in
       # turn off screen after 5min
       { command = "xset dpms 300"; notification = false; }
 
-      # wallpaper
-      # { command = "wal -nR"; notification = false; }
-      # { command = "feh --bg-fill ${theme.wallpaper}"; always = true; notification = false; }
-
       # go to first workspace
       { command = "i3-msg workspace '${ws._1}'"; notification = false; }
 
       # network
-      { command = "nm-applet"; notification = false; }
+      # { command = "nm-applet"; notification = false; }
+
+      # wallpaper
+      { command = "~/.bin/set-wallpaper.sh"; notification = false; }
+      # { command = "wal -nR"; notification = false; }
+      # { command = "feh --bg-fill ${theme.wallpaper}"; always = true; notification = false; }
 
       # unclutter makes the mouse invisible after a brief period
       { command = "unclutter"; notification = false; }

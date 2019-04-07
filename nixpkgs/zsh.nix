@@ -18,9 +18,9 @@
   };
 
   initExtra = ''
-    #if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
-    #  exec ssh-agent startx
-    #fi
+    if [[ ! $DISPLAY && $XDG_VTNR -eq 1 ]]; then
+      exec ssh-agent startx
+    fi
 
     #ulimit -n 10000
 
