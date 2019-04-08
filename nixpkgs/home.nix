@@ -71,6 +71,7 @@ in
     playerctl
     unclutter
     redshift
+    networkmanagerapplet
 
     # apps
     appimage-run
@@ -164,7 +165,6 @@ in
   services.dunst = import ./dunst.nix pkgs;
   services.redshift = import ./redshift.nix pkgs;
   services.compton = import ./compton.nix pkgs;
-  services.network-manager-applet.enable = true;
 
 
   # X
@@ -209,8 +209,6 @@ in
 
   xresources.properties = {
     "Xft.dpi" = 140; # = 210 / 1.5
-    # "Xcursor.size" = 32;
-    # "Xcursor.theme" = "Vanilla-DMZ-AA";
   };
 
   # systemd.user.services.lock = {
@@ -227,6 +225,5 @@ in
   #     WantedBy = [ "default.target" ];
   #   };
   # };
-
 
 }
