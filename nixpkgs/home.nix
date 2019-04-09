@@ -2,6 +2,7 @@
 
 let
   theme = import ./theme.nix;
+  srandrd = import ./srandrd.nix;
   oomox = import ./oomox;
   git-quick-stats = import ./git-quick-stats;
   xwobf = import ./xwobf;
@@ -58,6 +59,7 @@ in
     pywal
     i3status-rust
     i3lock
+    srandrd
     gnome3.dconf
     maim
     pavucontrol
@@ -147,8 +149,8 @@ in
   gtk = {
     enable = true;
     font = {
-      package = pkgs.dejavu_fonts;
-      name = "DejaVu Sans 9";
+      package = pkgs.noto-fonts;
+      name = "Noto Sans 9.9";
     };
     theme = {
       package = pkgs.theme-vertex;
