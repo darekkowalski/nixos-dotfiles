@@ -3,7 +3,7 @@ theme = "solarized-dark"
 [icons]
 name = "awesome"
 
-[icons.overrides]
+# [icons.overrides]
 #backlight_empty = " \\u{1f311} "
 #backlight_partial1 = " \\u{1f312} "
 #backlight_partial2 = " \\u{1f313} "

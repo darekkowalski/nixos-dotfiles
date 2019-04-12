@@ -234,8 +234,9 @@ in
         "${mod}+r" = "mode default";
       };
     };
+    fonts = ["DejaVu Sans Mono 10" "Font Awesome 5 Free 10"];
     bars = [{
-      fonts = [ "DejaVu Sans Mono, Font Awesome 10" ];
+      fonts = [ "DejaVu Sans Mono, Font Awesome 5 Free 10" ];
       position = "bottom";
       statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.dotfiles/config/i3status/status.toml";
       colors = with theme; {
@@ -274,6 +275,7 @@ in
       { command = "xset r rate 175 30"; notification = false; }
 
       # detect screens
+      { command = "srandrd autorandr -c"; always = true; notification = false; }
       { command = "autorandr -c"; always = true; notification = false; }
 
       # turn off screen after 5min
@@ -291,6 +293,9 @@ in
       # unclutter makes the mouse invisible after a brief period
       { command = "unclutter"; notification = false; }
 
+      # dropdown terminal
+      { command = "i3-sensible-terminal --name=dropdown -e tmux new -s scratch"; notification = false; }
+
     ];
   };
   extraConfig = ''
@@ -303,5 +308,12 @@ in
     # switch workspace with mod + mouse wheel/scroll
     bindsym --whole-window --border ${mod}+button4 exec ~/.bin/i3-powertools -workspace=prev
     bindsym --whole-window --border ${mod}+button5 exec ~/.bin/i3-powertools -workspace=next
+
+    # Dropdown terminal
+    for_window [instance="dropdown"] floating enable
+    for_window [instance="dropdown"] move scratchpad
+    for_window [instance="dropdown"] border pixel 4
+    for_window [instance="dropdown"] resize set 1600px 1000px
+    bindsym ${mod}+backslash [instance="dropdown"] scratchpad show
   '';
 }

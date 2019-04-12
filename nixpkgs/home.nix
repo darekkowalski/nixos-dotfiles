@@ -33,6 +33,7 @@ in
     xorg.xmodmap
     xorg.xdpyinfo
     whois
+    tmux
 
     # languages & build tools
     gcc8
@@ -50,6 +51,7 @@ in
     ansible
     glslang
     rustup
+    gitg
 
     libudev
     nodePackages.node-gyp
@@ -96,6 +98,7 @@ in
     irssi
     xournal
     libreoffice-fresh
+    font-manager
     slack
     powerstat
     transmission-gtk
@@ -115,6 +118,9 @@ in
   programs.rofi = import ./rofi.nix pkgs;
   programs.autorandr = import ./autorandr.nix pkgs;
 
+  home.file.".tmux.conf".source = ../config/tmux.conf;
+  home.file."./.config/kitty/kitty.conf".source = ../config/kitty/kitty.conf;
+
   programs.git = {
     enable = true;
     lfs.enable = true;
@@ -129,11 +135,20 @@ in
       last = "log 1 HEAD";
       diff2 = "diff --color-words --ignore-all-space --patience";
     };
-    extraConfig = {
-      core.editor = "code --wait";
-      push.default = "current";
-      diff.tool = "default-difftool";
-    };
+    extraConfig = ''
+      [branch "master"]
+      remote = origin
+      merge = refs/heads/master
+
+      [core]
+      editor = "code --wait";
+
+      [push]
+      default = "current";
+
+      [diff]
+      tool = "default-difftool";
+    '';
   };
 
   programs.firefox = {
@@ -149,8 +164,10 @@ in
   gtk = {
     enable = true;
     font = {
-      package = pkgs.noto-fonts;
-      name = "Noto Sans 9.9";
+      package = pkgs.google-fonts;
+      name = "Open Sans 10";
+      # package = pkgs.noto-fonts;
+      # name = "Noto Sans 10";
     };
     theme = {
       package = pkgs.theme-vertex;
@@ -184,6 +201,7 @@ in
   home.file.".xinitrc".text = ''
     #!/bin/sh
     [ -f ~/.xprofile ] && . ~/.xprofile
+    export TERMINAL=kitty
     exec dbus-launch --exit-with-x11 i3
   '';
 

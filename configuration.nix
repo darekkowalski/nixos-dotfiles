@@ -69,10 +69,10 @@ let secrets = import /etc/nixos/secrets.nix; in
     noto-fonts-emoji
     liberation_ttf
     fira-code
+    google-fonts
     dejavu_fonts
-    (nerdfonts.override {
-      withFont = "--complete FiraCode";
-    })
+    powerline-fonts
+    source-code-pro
   ];
 
   # Networking
