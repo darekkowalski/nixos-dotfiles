@@ -134,8 +134,8 @@ let secrets = import /etc/nixos/secrets.nix; in
   };
 
   # Resolution
-  fonts.fontconfig.dpi = 210;
   services.xserver.dpi = 210;
+  fonts.fontconfig.dpi = 210;
 
   services.xserver.monitorSection = ''
     DisplaySize 310 174   # In millimeters

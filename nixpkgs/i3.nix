@@ -54,7 +54,7 @@ in
       #"XF86Favorites" = "exec /home/ari/bin/lock";
 
       "${mod}+Return" = "exec kitty";
-      "${mod}+${modc}+Return" = "exec --no-startup-id thunar";
+      "${mod}+${modc}+Return" = "exec --no-startup-id nautilus";
 
       "${modc}+q" = "kill";
 
@@ -70,7 +70,7 @@ in
 
       "${modc}+space" = "exec rofi -show drun -show-icons";
       #"${modc}+Mod1+space" = "exec rofi -show window";
-      "${modc}+Tab" = "exec rofi -show window";
+      "${modc}+Tab" = "exec rofi -show window -show-icons";
 
       # switch window focus
       "${mod}+Left" = "focus left";
@@ -299,6 +299,8 @@ in
     ];
   };
   extraConfig = ''
+    for_window [class=".*"] border pixel 2
+
     # screenshot, clip
     bindsym --release ${mod}+Shift+p exec maim -s | xclip -selection clipboard -t "image/png"
 

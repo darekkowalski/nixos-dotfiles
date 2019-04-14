@@ -6,11 +6,35 @@ let
   oomox = import ./oomox;
   git-quick-stats = import ./git-quick-stats;
   xwobf = import ./xwobf;
+  mozilla = import (builtins.fetchGit {
+    url = "https://github.com/mozilla/nixpkgs-mozilla.git";
+    ref = "master";
+    rev = "cebceca52d54c3df371c2265903f008c7a72980b";
+  });
+  nixpkgs = import <nixpkgs> { overlays = [ mozilla ]; };
 in
 {
   nixpkgs.config.allowUnfree = true;
   
   programs.home-manager.enable = true;
+
+  nixpkgs.overlays = [
+    mozilla
+    (self: super: {
+      latest = {
+        rustChannels.nightly.rust = (nixpkgs.rustChannelOf { date = "2019-04-08"; channel = "nightly"; }).rust.override {
+          targets = [
+            "wasm32-unknown-unknown"
+          ];
+
+          extensions = [
+            "rustfmt-preview"
+            # "rls-preview"
+          ];
+        };
+      };
+    })
+  ];
 
   home.packages = with pkgs; [
     # system utils
@@ -50,7 +74,8 @@ in
     git-quick-stats
     ansible
     glslang
-    rustup
+    latest.rustChannels.nightly.rust
+    cargo-edit
     gitg
 
     libudev
@@ -104,6 +129,10 @@ in
     transmission-gtk
     xorg.xkill
     webtorrent_desktop
+    nmap
+    bitwarden-cli
+    jq
+    xdotool
 
     # rice
     lxappearance
@@ -177,13 +206,16 @@ in
       package = pkgs.tango-icon-theme;
       name = "Tango";
     };
+    gtk3.extraConfig = {
+      gtk-decoration-layout = "appmenu,menu";
+    };
   };
 
 
   # Services
   services.dunst = import ./dunst.nix pkgs;
   services.redshift = import ./redshift.nix pkgs;
-  services.compton = import ./compton.nix pkgs;
+  # services.compton = import ./compton.nix pkgs;
 
 
   # X
