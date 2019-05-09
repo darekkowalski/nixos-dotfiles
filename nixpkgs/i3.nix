@@ -1,6 +1,6 @@
 { pkgs, ... }:
 
-let theme = import ./theme.nix;
+let theme = import ./theme2.nix;
 
 ws = {
   _1 = "1: >_";
@@ -49,18 +49,45 @@ in
       "${mod}+XF86MonBrightnessUp" = "exec --no-startup-id light -A 2";
       "${mod}+XF86MonBrightnessDown" = "exec --no-startup-id light -U 2";
       "XF86AudioMicMute" = "exec --no-startup-id pactl set-source-mute 1 toggle";
+      
+      #
+      # App hotkeys
+      #
+      "${mod}+Return" = "exec --no-startup-id kitty";
 
-      #"XF86Tools" = "exec --no-startup-id change-theme";
-      #"XF86Favorites" = "exec /home/ari/bin/lock";
+      # File manager
+      "${mod}+Shift+Return" = "exec ~/.bin/i3-powertools app open --new.floating --new.exec='nautilus --new-window'";
 
-      "${mod}+Return" = "exec kitty";
-      "${mod}+${modc}+Return" = "exec --no-startup-id nautilus";
+      # Chrome
+      "${mod}+s" = "exec ~/.bin/i3-powertools app open --focus.class=Google-chrome --new.exec='google-chrome-stable --new-window'";
+      "${mod}+${modc}+s" = "exec ~/.bin/i3-powertools app open --new.exec='google-chrome-stable --new-window'";
+
+      # Mail
+      "${mod}+m" = "exec ~/.bin/i3-powertools app open --focus.mark=email --focus.class=google-chrome --new.mark=email --new.workspace='7: email' --new.exec='google-chrome-stable --new-window https://mail.google.com'";
+
+      # Discord
+      "${mod}+d" = "exec ~/.bin/i3-powertools app open --focus.class=discord --new.workspace='8: chat' --new.exec='Discord'";
+
+      # Terminal
+      "${mod}+t" = "exec ~/.bin/i3-powertools app open --focus.class=kitty --new.exec='kitty'";
+
+      # Editor
+      "${mod}+e" = "exec ~/.bin/i3-powertools app open --focus.class=Code --new.exec='code'";
+
+      # Spotify
+      "${mod}+i" = "exec ~/.bin/i3-powertools app open --focus.class=Spotify --new.workspace='9: music' --new.exec='spotify'";
+
+      # Sys terminal window
+      "${mod}+z" = "exec ~/.bin/i3-powertools app open --focus.mark=systail --new.mark=systail --new.workspace='10: sys' --new.exec='kitty -e journalctl -f'";
+
+      # Project
+      "${mod}+o" = "exec ~/.bin/i3-powertools app open --focus.mark=project --focus.class=google-chrome --new.mark=project --new.workspace='15' --new.exec='google-chrome-stable --new-window https://github.com/horizon-games/SkyWeaver/projects/16?fullscreen=true'";
+
+
+      #--
 
       "${modc}+q" = "kill";
-
-      "${mod}+${modc}+s" = "exec --no-startup-id brave --new-window";
-      "${mod}+${modc}+g" = "exec --no-startup-id google-chrome-stable --new-window";
-
+    
       "${mod}+Shift+Up" = "exec --no-startup-id xrandr --output DP-1 --brightness 1";
       "${mod}+Shift+Down" = "exec --no-startup-id xrandr --output DP-1 --brightness 0.85";
 
@@ -71,12 +98,21 @@ in
       "${modc}+space" = "exec rofi -show drun -show-icons";
       #"${modc}+Mod1+space" = "exec rofi -show window";
       "${modc}+Tab" = "exec rofi -show window -show-icons";
+      "${mod}+p" = "exec rofi -show window -show-icons";
 
       # switch window focus
       "${mod}+Left" = "focus left";
       "${mod}+Down" = "focus down";
       "${mod}+Up" = "focus up";
       "${mod}+Right" = "focus right";
+      # "${mod}+Shift+Left" = "focus parent; focus left";
+      # "${mod}+Shift+Down" = "focus parent; focus down";
+      # "${mod}+Shift+Up" = "focus parent; focus up";
+      # "${mod}+Shift+Right" = "focus parent; focus right";
+
+      # "${mod}+Tab" = "i3-powertools -- on release, go to prev window
+      # mod+tab+left/right etc.. go to direction you select
+      # mod+tidle i3-powertools, go to prev workspace
 
       # move window position
       "${mod}+Control+Left" = "move left";
@@ -92,21 +128,21 @@ in
       "${mod}+f" = "fullscreen toggle";
 
       # change container layout (toggle split, stacking, tabbed)
-      "${mod}+a" = "layout toggle split";
-      "${mod}+s" = "layout stacking";
-      "${mod}+d" = "layout tabbed";
+      "${mod}+${modc}+a" = "layout toggle split";
+      # "${mod}+${modc}+s" = "layout stacking";
+      "${mod}+${modc}+d" = "layout tabbed";
 
       # toggle tiling / floating
       "${mod}+space" = "floating toggle";
 
       # change focus between tiling / floating windows
-      "${mod}+i" = "focus mode_toggle";
+      # "${mod}+i" = "focus mode_toggle";
 
       # focus the parent container
-      "${mod}+p" = "focus parent";
+      "${mod}+${modc}+minus" = "focus parent";
 
       # focus the child container
-      "${mod}+o" = "focus child";
+      "${mod}+${modc}+equal" = "focus child";
 
       # switch to workspace
       "${mod}+1" = "workspace ${ws._1}";
@@ -153,8 +189,8 @@ in
       "${modc}+${mod}+Shift+0" = "move container to workspace ${ws._20}";
 
       # move worksapce to other monitor
-      "${mod}+n" = "move workspace to output up";
-      "${mod}+m" = "move workspace to output down";
+      "${mod}+${modc}+n" = "move workspace to output up";
+      "${mod}+${modc}+m" = "move workspace to output down";
 
       # Workspaces and multiple monitors
       "${mod}+${moda}+Left" = "move workspace to output left";
@@ -163,14 +199,14 @@ in
       "${mod}+${moda}+Down" = "move workspace to output down";
 
       # next/prev workspace
-      "${mod}+Next" = "exec ~/.bin/i3-powertools -workspace=next";
-      "${mod}+Prior" = "exec ~/.bin/i3-powertools -workspace=prev";
+      "${mod}+Next" = "exec ~/.bin/i3-powertools workspace switch next";
+      "${mod}+Prior" = "exec ~/.bin/i3-powertools workspace switch prev";
 
       "${mod}+bracketright" = "workspace next";
       "${mod}+bracketleft" = "workspace prev";
 
       "${mod}+l" = "exec ~/.bin/screenlock";
-      "${mod}+semicolon" = "exec ~/.bin/screenoff";
+      "${mod}+Shift+l" = "exec ~/.bin/screenoff";
 
       "${mod}+r" = "mode resize";
 
@@ -182,45 +218,51 @@ in
 
       # pick a new wallpaper
       "${mod}+Shift+w" = "exec ~/.bin/set-wallpaper.sh";
+
+      #
+      "${mod}+semicolon" = "move scratchpad";
+
+      #
+      "${mod}+apostrophe" = "scratchpad show";
     };
-    colors = with theme; {
-      background = hex.background;
-      focused = {
-        border = hex.background;
-        background = hex.background;
-        text = hex.foreground;
-        indicator = hex.background;
-        childBorder = hex.foreground;
-      };
-      focusedInactive = {
-        border = hex.background;
-        background = hex.background;
-        text = hex.foreground;
-        indicator = hex.background;
-        childBorder = hex.background;
-      };
-      unfocused = {
-        border = hex.background;
-        background = hex.background;
-        text = hex.foreground;
-        indicator = hex.background;
-        childBorder = hex.background;
-      };
-      urgent = {
-        border = hex.background;
-        background = hex.background;
-        text = hex.foreground;
-        indicator = hex.background;
-        childBorder = hex.background;
-      };
-      placeholder = {
-        border = hex.background;
-        background = hex.background;
-        text = hex.foreground;
-        indicator = hex.background;
-        childBorder = hex.background;
-      };
-    };
+    # colors = with theme; {
+    #   background = hex.background;
+    #   focused = {
+    #     border = hex.background;
+    #     background = hex.background;
+    #     text = hex.foreground;
+    #     indicator = hex.background;
+    #     childBorder = hex.foreground;
+    #   };
+    #   focusedInactive = {
+    #     border = hex.background;
+    #     background = hex.background;
+    #     text = hex.foreground;
+    #     indicator = hex.background;
+    #     childBorder = hex.background;
+    #   };
+    #   unfocused = {
+    #     border = hex.background;
+    #     background = hex.background;
+    #     text = hex.foreground;
+    #     indicator = hex.background;
+    #     childBorder = hex.background;
+    #   };
+    #   urgent = {
+    #     border = hex.background;
+    #     background = hex.background;
+    #     text = hex.foreground;
+    #     indicator = hex.background;
+    #     childBorder = hex.background;
+    #   };
+    #   placeholder = {
+    #     border = hex.background;
+    #     background = hex.background;
+    #     text = hex.foreground;
+    #     indicator = hex.background;
+    #     childBorder = hex.background;
+    #   };
+    # };
     modes = {
       # resize window (you can also use the mouse for that)
       resize = {
@@ -234,19 +276,28 @@ in
         "${mod}+r" = "mode default";
       };
     };
-    fonts = ["DejaVu Sans Mono 10" "Font Awesome 5 Free 10"];
+    fonts = ["DejaVu Sans Mono 10"];
     bars = [{
       fonts = [ "DejaVu Sans Mono, Font Awesome 5 Free 10" ];
       position = "bottom";
       statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.dotfiles/config/i3status/status.toml";
-      colors = with theme; {
-        background = hex.background;
-        statusline = hex.foreground;
-        separator = hex.foreground;
-        focusedWorkspace = { border = hex.color4; background = hex.foreground; text = hex.background; };
-        activeWorkspace = { border = hex.color4; background = hex.background; text = hex.foreground; };
-        inactiveWorkspace = { border = hex.black; background = hex.black; text = hex.foreground; };
-        urgentWorkspace = { border = hex.red; background = hex.red; text = hex.black; };
+      # colors = with theme; {
+      #   background = hex.background;
+      #   statusline = hex.foreground;
+      #   separator = hex.foreground;
+      #   focusedWorkspace = { border = hex.color4; background = hex.foreground; text = hex.background; };
+      #   activeWorkspace = { border = hex.color4; background = hex.background; text = hex.foreground; };
+      #   inactiveWorkspace = { border = hex.black; background = hex.black; text = hex.foreground; };
+      #   urgentWorkspace = { border = hex.red; background = hex.red; text = hex.black; };
+      # };
+      colors = {
+        background = "#222222";
+        separator = "#666666";
+        statusline = "#dddddd";
+        focusedWorkspace = { border = "#0088CC"; background = "#0088CC"; text = "#ffffff"; };
+        activeWorkspace = { border = "#333333"; background = "#333333"; text = "#ffffff"; };
+        inactiveWorkspace = { border = "#333333"; background = "#333333"; text = "#888888"; };
+        urgentWorkspace = { border = "#2f343a"; background = "#900000"; text = "#ffffff"; };
       };
     }];
     focus = {
@@ -275,8 +326,8 @@ in
       { command = "xset r rate 175 30"; notification = false; }
 
       # detect screens
-      { command = "srandrd autorandr -c"; always = true; notification = false; }
-      { command = "autorandr -c"; always = true; notification = false; }
+      # { command = "srandrd autorandr -c"; always = true; notification = false; }
+      # { command = "autorandr -c"; always = true; notification = false; }
 
       # turn off screen after 5min
       { command = "xset dpms 300"; notification = false; }
@@ -293,29 +344,55 @@ in
       # unclutter makes the mouse invisible after a brief period
       { command = "unclutter"; notification = false; }
 
-      # dropdown terminal
-      { command = "i3-sensible-terminal --name=dropdown -e tmux new -s scratch"; notification = false; }
+      # scratchpad terminal
+      { command = "i3-sensible-terminal --name=scratchterm"; notification = false; }
 
     ];
   };
   extraConfig = ''
+    #--
+    set $fg #f0f0f0
+    set $bg #000000
+    set $black #f0f0f0
+    set $highlight #ff0000
+
+    # set $focused #E69543
+    # set $focused #C55E33
+    set $focused #f1c691
+
+    # class                 border  backgr. text    indicator child_border
+    client.focused          #002b36 #002b36 #ffffff #2e9ef4   $focused
+    client.focused_inactive #333333 #5f676a #ffffff #484e50   #5f676a
+    client.unfocused        #333333 #222222 #888888 #292d2e   #222222
+    client.urgent           #2f343a #900000 #ffffff #900000   #900000
+    client.placeholder      #000000 #0c0c0c #ffffff #000000   #0c0c0c
+
+    client.background       #ffffff
+    #--
+
     for_window [class=".*"] border pixel 2
 
     # screenshot, clip
     bindsym --release ${mod}+Shift+p exec maim -s | xclip -selection clipboard -t "image/png"
 
     # screenshot, full screen
-    bindsym --release ${mod}+p exec --no-startup-id maim ~/Pictures/screenshot-$(date +%s).png
+    bindsym --release ${mod}+${moda}+p exec --no-startup-id maim ~/Pictures/screenshot-$(date +%s).png
 
     # switch workspace with mod + mouse wheel/scroll
-    bindsym --whole-window --border ${mod}+button4 exec ~/.bin/i3-powertools -workspace=prev
-    bindsym --whole-window --border ${mod}+button5 exec ~/.bin/i3-powertools -workspace=next
+    bindsym --whole-window --border ${mod}+button4 exec ~/.bin/i3-powertools  workspace switch prev
+    bindsym --whole-window --border ${mod}+button5 exec ~/.bin/i3-powertools  workspace switch next
 
-    # Dropdown terminal
-    for_window [instance="dropdown"] floating enable
-    for_window [instance="dropdown"] move scratchpad
-    for_window [instance="dropdown"] border pixel 4
-    for_window [instance="dropdown"] resize set 1600px 1000px
-    bindsym ${mod}+backslash [instance="dropdown"] scratchpad show
+    # Scratchpad terminal
+    for_window [instance="scratchterm"] floating enable
+    for_window [instance="scratchterm"] move scratchpad
+    for_window [instance="scratchterm"] border pixel 4
+    for_window [instance="scratchterm"] resize set 1600px 1000px
+    bindsym ${mod}+backslash [instance="scratchterm"] scratchpad show
+
+    # File manager, floating
+    for_window [class="Org.gnome.Nautilus"] floating enable
+
+    # Screen recorder, floating
+    for_window [class="SimpleScreenRecorder"] floating enable
   '';
 }

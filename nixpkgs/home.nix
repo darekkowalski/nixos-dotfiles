@@ -6,6 +6,7 @@ let
   oomox = import ./oomox;
   git-quick-stats = import ./git-quick-stats;
   xwobf = import ./xwobf;
+  # ngrok = import ./ngrok;
   mozilla = import (builtins.fetchGit {
     url = "https://github.com/mozilla/nixpkgs-mozilla.git";
     ref = "master";
@@ -37,6 +38,8 @@ in
   ];
 
   home.packages = with pkgs; [
+    # ngrok
+
     # system utils
     htop
     gotop
@@ -58,6 +61,7 @@ in
     xorg.xdpyinfo
     whois
     tmux
+    arandr
 
     # languages & build tools
     gcc8
@@ -77,6 +81,8 @@ in
     latest.rustChannels.nightly.rust
     cargo-edit
     gitg
+    lsof
+    parallel
 
     libudev
     nodePackages.node-gyp
@@ -133,6 +139,8 @@ in
     bitwarden-cli
     jq
     xdotool
+    openvpn
+    xorg.xwininfo
 
     # rice
     lxappearance
@@ -186,7 +194,7 @@ in
   };
 
   programs.fzf = {
-    enable = true; 
+    enable = true;
     enableZshIntegration = true;
   };
 
