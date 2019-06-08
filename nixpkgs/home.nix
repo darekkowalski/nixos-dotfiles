@@ -10,7 +10,7 @@ let
   mozilla = import (builtins.fetchGit {
     url = "https://github.com/mozilla/nixpkgs-mozilla.git";
     ref = "master";
-    rev = "cebceca52d54c3df371c2265903f008c7a72980b";
+    rev = "9f35c4b09fd44a77227e79ff0c1b4b6a69dff533";
   });
   nixpkgs = import <nixpkgs> { overlays = [ mozilla ]; };
 in
@@ -23,14 +23,16 @@ in
     mozilla
     (self: super: {
       latest = {
-        rustChannels.nightly.rust = (nixpkgs.rustChannelOf { date = "2019-04-08"; channel = "nightly"; }).rust.override {
+        rustChannels.nightly.rust = (nixpkgs.rustChannelOf { date = "2019-06-06"; channel = "nightly"; }).rust.override {
           targets = [
             "wasm32-unknown-unknown"
           ];
 
           extensions = [
             "rustfmt-preview"
-            # "rls-preview"
+            "rls-preview"
+            "clippy-preview"
+            "rust-src"
           ];
         };
       };
@@ -62,6 +64,7 @@ in
     whois
     tmux
     arandr
+    wine
 
     # languages & build tools
     gcc8
@@ -128,7 +131,7 @@ in
     brave
     irssi
     xournal
-    libreoffice-fresh
+    libreoffice
     font-manager
     slack
     powerstat
@@ -136,7 +139,6 @@ in
     xorg.xkill
     webtorrent_desktop
     nmap
-    bitwarden-cli
     jq
     xdotool
     openvpn
