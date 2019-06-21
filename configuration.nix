@@ -4,7 +4,7 @@
 
 let secrets = import /etc/nixos/secrets.nix; in
 
-{ config, pkgs, ... }:
+{ config, pkgs, options, ... }:
 
 {
   system.copySystemConfiguration = true;
@@ -130,7 +130,7 @@ let secrets = import /etc/nixos/secrets.nix; in
       ];
     };
 
-    # usbmuxd.enable = true;
+    usbmuxd.enable = true;
   };
 
   # Resolution
@@ -153,7 +153,6 @@ let secrets = import /etc/nixos/secrets.nix; in
   services.flatpak.enable = true;
 
   virtualisation.docker.enable = true;
-  # virtualisation.lxd.enable = true;
 
   users.mutableUsers = false;
   users.defaultUserShell = pkgs.zsh;
@@ -169,17 +168,17 @@ let secrets = import /etc/nixos/secrets.nix; in
     extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "lxd" "adbusers"];
   };
 
-  services.tlp.extraConfig = ''
-    START_CHARGE_THRESH_BAT0=70
-    STOP_CHARGE_THRESH_BAT0=95
-    CPU_SCALING_GOVERNOR_ON_BAT=powersave
-    ENERGY_PERF_POLICY_ON_BAT=powersave
-  '';
+  services.tlp = {
+    enable = true;
+    extraConfig = ''
+      START_CHARGE_THRESH_BAT0=70
+      STOP_CHARGE_THRESH_BAT0=95
+      CPU_SCALING_GOVERNOR_ON_BAT=powersave
+      ENERGY_PERF_POLICY_ON_BAT=powersave
+      CPU_SCALING_GOVERNOR_ON_AC=performance
+      ENERGY_PERF_POLICY_ON_AC=performance
+    '';
+  };
 
-  # This value determines the NixOS release with which your system is to be
-  # compatible, in order to avoid breaking some software such as database
-  # servers. You should change this only after NixOS release notes say you
-  # should.
-  system.stateVersion = "19.03"; # Did you read the comment?
-
+  system.stateVersion = "19.03";
 }

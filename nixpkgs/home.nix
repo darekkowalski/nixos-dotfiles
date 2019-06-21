@@ -36,6 +36,7 @@ in
           ];
         };
       };
+      # ios-webkit-debug-proxy = self.callPackage ./ios-webkit-debug-proxy { };
     })
   ];
 
@@ -76,7 +77,7 @@ in
     python3Full
     cmake
     yarn
-    nodejs-11_x
+    nodejs-12_x
     ms-sys
     git-quick-stats
     ansible
@@ -143,6 +144,9 @@ in
     xdotool
     openvpn
     xorg.xwininfo
+
+    gnupg
+    #drone-cli
 
     # rice
     lxappearance

@@ -1,3 +1,5 @@
+let secrets = import /etc/nixos/secrets.nix; in
+
 { pkgs, ... }:
 
 {
@@ -56,5 +58,8 @@
 
     export MOD_VENDOR=""
     export GOMODULES="off"
+
+    export DRONE_SERVER=https://ci.0xhorizon.net
+    export DRONE_TOKEN='' + secrets.tokens.drone + ''
   '';
 }
