@@ -36,7 +36,6 @@ in
           ];
         };
       };
-      # ios-webkit-debug-proxy = self.callPackage ./ios-webkit-debug-proxy { };
     })
   ];
 
