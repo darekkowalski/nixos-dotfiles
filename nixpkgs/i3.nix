@@ -63,7 +63,7 @@ in
       "${mod}+${modc}+s" = "exec ~/.bin/i3-powertools app open --new.exec='google-chrome-stable --new-window'";
 
       # Mail
-      "${mod}+m" = "exec ~/.bin/i3-powertools app open --focus.mark=email --focus.class=google-chrome --new.mark=email --new.workspace='7: email' --new.exec='google-chrome-stable --new-window https://mail.google.com'";
+      "${mod}+m" = "exec ~/.bin/i3-powertools app open --focus.mark=email --focus.class=firefox --new.mark=email --new.workspace='7: email' --new.exec='firefox --new-window https://mail.google.com'";
 
       # Discord
       "${mod}+d" = "exec ~/.bin/i3-powertools app open --focus.class=discord --new.workspace='8: chat' --new.exec='Discord'";

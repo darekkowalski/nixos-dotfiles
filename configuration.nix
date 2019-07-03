@@ -4,7 +4,7 @@
 
 let secrets = import /etc/nixos/secrets.nix; in
 
-{ config, pkgs, options, ... }:
+{ config, pkgs, options, lib, ... }:
 
 {
   system.copySystemConfiguration = true;
@@ -14,8 +14,12 @@ let secrets = import /etc/nixos/secrets.nix; in
     /etc/nixos/hardware-configuration.nix
   ];
 
+  hardware.cpu.intel.updateMicrocode = true;
+  hardware.enableRedistributableFirmware = true; # Might help wifi?
+
   # Use the systemd-boot EFI boot loader.
   boot = {
+    kernelModules = [ "acpi_call" ];
     blacklistedKernelModules = [ "mei_me" ];
     loader = {
       systemd-boot.enable = true;
@@ -24,6 +28,7 @@ let secrets = import /etc/nixos/secrets.nix; in
     };
     plymouth.enable = true;
     kernelPackages = pkgs.linuxPackages_latest;
+    extraModulePackages = with config.boot.kernelPackages; [ acpi_call ];
   };
 
   nixpkgs.config.allowUnfree = true;
@@ -171,14 +176,18 @@ let secrets = import /etc/nixos/secrets.nix; in
   services.tlp = {
     enable = true;
     extraConfig = ''
-      START_CHARGE_THRESH_BAT0=70
+      START_CHARGE_THRESH_BAT0=90
       STOP_CHARGE_THRESH_BAT0=95
       CPU_SCALING_GOVERNOR_ON_BAT=powersave
       ENERGY_PERF_POLICY_ON_BAT=powersave
-      CPU_SCALING_GOVERNOR_ON_AC=performance
-      ENERGY_PERF_POLICY_ON_AC=performance
+      CPU_SCALING_GOVERNOR_ON_AC=balance-performance
+      ENERGY_PERF_POLICY_ON_AC=balance-performance
     '';
   };
+
+  # Disable the "throttling bug fix" -_- https://github.com/NixOS/nixos-hardware/blob/master/common/pc/laptop/cpu-throttling-bug.nix
+  systemd.timers.cpu-throttling.enable = lib.mkForce false;
+  systemd.services.cpu-throttling.enable = lib.mkForce false;
 
   system.stateVersion = "19.03";
 }

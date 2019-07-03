@@ -57,14 +57,14 @@ in
     usbutils
     ffmpeg
     pciutils
-    # s-tui
+    s-tui
     # stress
     xorg.xmodmap
     xorg.xdpyinfo
     whois
     tmux
     arandr
-    wine
+    # wine
 
     # languages & build tools
     gcc8
