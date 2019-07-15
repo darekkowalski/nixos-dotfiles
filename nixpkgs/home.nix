@@ -252,7 +252,7 @@ in
 
   home.file.".xmodmap".text = ''
     ! Swap windows and alt keys
-    remove mod1 = Alt_L
+    remove mod1 = Alt_L Alt_R
     add control = Alt_L
     clear mod4
     add mod1 = Super_L
@@ -265,11 +265,14 @@ in
     ! set print screen to mod3 as well
     keycode 107 = Hyper_R
 
-    ! set left alt key to Control_L (thinking its super/command)
+    ! set left alt key to Control_L
     keycode 64 = Control_L
 
     ! set super key to Alt_L (swapping windows and alt key)
     keycode 133 = Alt_L
+
+    ! set alt_r key to hyper as well
+    keycode 108 = Hyper_R
   '';
 
   xresources.properties = {

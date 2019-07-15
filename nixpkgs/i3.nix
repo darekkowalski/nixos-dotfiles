@@ -49,6 +49,9 @@ in
       "${mod}+XF86MonBrightnessUp" = "exec --no-startup-id light -A 2";
       "${mod}+XF86MonBrightnessDown" = "exec --no-startup-id light -U 2";
       "XF86AudioMicMute" = "exec --no-startup-id pactl set-source-mute 1 toggle";
+      "XF86Display" = "exec autorandr -c";
+      "${mod}+XF86Display" = "exec ls ~/.screenlayout/* | rofi -dmenu | xargs -r -t sh"; # Screen mode switcher
+      "${mod}+Shift+XF86Display" = "exec xrandr --auto"; # Reset screen
       
       #
       # App hotkeys
@@ -319,7 +322,7 @@ in
       # xresources
       { command = "xrdb -merge ~/.Xresources"; notification = false; }
 
-      # mod/capslock override
+      # keyboard override
       { command = "xmodmap ~/.xmodmap"; notification = false; }
 
       # key rate
