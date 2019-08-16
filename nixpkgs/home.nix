@@ -166,8 +166,8 @@ in
   programs.git = {
     enable = true;
     lfs.enable = true;
-    userEmail = "peter.kieltyka@gmail.com";
-    userName = "Peter Kieltyka";
+    userEmail = "dk@module17.xyz";
+    userName = "Darek Kowalski";
     aliases = {
       co = "checkout";
       s = "status";

@@ -9,6 +9,7 @@ let secrets = import /etc/nixos/secrets.nix; in
 {
   system.copySystemConfiguration = true;
 
+  # TODO: Determine hardware configuration for Macbook Pro
   imports = [
     <nixos-hardware/lenovo/thinkpad/x1/6th-gen>
     /etc/nixos/hardware-configuration.nix
@@ -81,7 +82,7 @@ let secrets = import /etc/nixos/secrets.nix; in
   ];
 
   # Networking
-  networking.hostName = "pak";
+  networking.hostName = "dk";
   networking.networkmanager.enable = true;
   networking.networkmanager.appendNameservers = [ "1.1.1.1" "8.8.8.8" "8.8.4.4" ];
 
@@ -164,11 +165,11 @@ let secrets = import /etc/nixos/secrets.nix; in
   users.users.root.hashedPassword = secrets.users.root.hashedPassword;
 
   # Define a user account. Don't forget to set a password with ‘passwd’.
-  users.users.peter = {
+  users.users.dk = {
     isNormalUser = true;
     uid = 1000;
-    description = "Peter Kieltyka";
-    hashedPassword = secrets.users.peter.hashedPassword;
+    description = "Darek Kowalski";
+    hashedPassword = secrets.users.dk.hashedPassword;
     shell = pkgs.zsh;
     extraGroups = [ "wheel" "sudoers" "audio" "video" "disk" "networkmanager" "lxd" "adbusers"];
   };

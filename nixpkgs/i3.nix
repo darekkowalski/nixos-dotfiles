@@ -84,7 +84,7 @@ in
       "${mod}+z" = "exec ~/.bin/i3-powertools app open --focus.mark=systail --new.mark=systail --new.workspace='10: sys' --new.exec='kitty -e journalctl -f'";
 
       # Project
-      "${mod}+o" = "exec ~/.bin/i3-powertools app open --focus.mark=project --focus.class=google-chrome --new.mark=project --new.workspace='15' --new.exec='google-chrome-stable --new-window https://github.com/horizon-games/SkyWeaver/projects/16?fullscreen=true'";
+      "${mod}+o" = "exec ~/.bin/i3-powertools app open --focus.mark=project --focus.class=google-chrome --new.mark=project --new.workspace='15' --new.exec='google-chrome-stable --new-window https://github.com/darekkowalski/nixos-dotfiles/?fullscreen=true'";
 
 
       #--
@@ -283,7 +283,7 @@ in
     bars = [{
       fonts = [ "DejaVu Sans Mono, Font Awesome 5 Free 10" ];
       position = "bottom";
-      statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.dotfiles/config/i3status/status.toml";
+      statusCommand = "${pkgs.i3status-rust}/bin/i3status-rs ~/.nixos-dotfiles/config/i3status/status.toml";
       # colors = with theme; {
       #   background = hex.background;
       #   statusline = hex.foreground;

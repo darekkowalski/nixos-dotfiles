@@ -45,12 +45,12 @@ let secrets = import /etc/nixos/secrets.nix; in
     #export JAVA_HOME=/usr/lib/jvm/java-11-openjdk
 
     # Android
-    #export ANDROID_SDK_ROOT=/home/peter/Library/Android/Sdk
+    #export ANDROID_SDK_ROOT=/home/dk/Library/Android/Sdk
     #export PATH=$PATH:$ANDROID_SDK_ROOT/platform-tools
     #export PATH=$PATH:$ANDROID_SDK_ROOT/tools
 
     # xdg
-    #export XDG_DATA_DIRS=$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:/home/peter/.local/share/flatpak/exports/share
+    #export XDG_DATA_DIRS=$XDG_DATA_DIRS:/var/lib/flatpak/exports/share:/home/dk/.local/share/flatpak/exports/share
 
     # stuff
     export EDITOR="code"
