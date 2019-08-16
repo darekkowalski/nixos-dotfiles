@@ -5,12 +5,12 @@ builtin_themes() {
 }
 
 automatic_themes() {
-  ls ~/dotfiles/wallpapers/ | sed 's/\.[^.]*$//' | sed -e 's/^/automatic: /'
+  ls ~/nixos-dotfiles/wallpapers/ | sed 's/\.[^.]*$//' | sed -e 's/^/automatic: /'
 }
 
 THEME_NAME=$({ automatic_themes; builtin_themes; } | rofi -dmenu -p 'theme:')
 if [[ $THEME_NAME == automatic* ]]; then
-  wal -ni  ~/dotfiles/wallpapers/$(echo $THEME_NAME | sed 's/automatic: //')*
+  wal -ni  ~/nixos-dotfiles/wallpapers/$(echo $THEME_NAME | sed 's/automatic: //')*
 elif [[ $THEME_NAME == builtin* ]]; then
   THEME=$(echo $THEME_NAME | grep -oP '(dark|light|extra): ([\w-]+)')
   TYPE=$(echo $THEME | cut -d ' ' -f1)
